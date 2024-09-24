@@ -5,6 +5,7 @@
 #include <string>
 using namespace std;
 
+// constant name for files to be accessed
 const string STUDENT_DATA_FILE = "StudentData.txt";
 const string STUDENT_EMAILS_FILE = "StudentData_Emails.txt";
 
@@ -41,6 +42,9 @@ int main() {
 
 		// insert student into vector
 		students.push_back(tempStudent);
+		#ifdef _DEBUG // print out each added student if in debug mode
+			cout << tempStudent.firstName << " " << tempStudent.lastName << " added." << endl;
+		#endif
 	}
 
 	return 1;
