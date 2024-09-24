@@ -61,9 +61,14 @@ int main() {
 
 		// insert student into vector
 		students.push_back(tempStudent);
+
 		#ifdef _DEBUG // print out each added student if in debug mode
-			cout << tempStudent.firstName << " " << tempStudent.lastName << " added." << endl;
-		#endif
+		cout << tempStudent.firstName << " " << tempStudent.lastName;
+		#ifdef PreRelease
+		cout << " email: " << tempStudent.email;
+		#endif // PreRelease
+		cout << " added." << endl;
+		#endif // _DEBUG
 	}
 
 	return 1;
