@@ -5,6 +5,9 @@
 #include <string>
 using namespace std;
 
+// define PreRealse compiler directive
+#define PreRelease
+
 // constant name for files to be accessed
 const string STUDENT_DATA_FILE = "StudentData.txt";
 const string STUDENT_EMAILS_FILE = "StudentData_Emails.txt";
@@ -13,12 +16,24 @@ const string STUDENT_EMAILS_FILE = "StudentData_Emails.txt";
 struct STUDENT_DATA {
 	string firstName;
 	string lastName;
+#ifdef PreRelease
+	string email;
+#endif
 };
 
 int main() {
 	// vector of all students saved
 	vector<STUDENT_DATA> students;
 
+#ifdef PreRelease	// pre-release code
+	// open student data file as input
+	ifstream inputFile(STUDENT_EMAILS_FILE);
+	// checks if file was opened successfully
+	if (!inputFile.is_open()) {
+		cerr << "Failed to open " << STUDENT_EMAILS_FILE << endl;
+		return 2;
+	}
+#else	// non-pre-release code
 	// open student data file as input
 	ifstream inputFile(STUDENT_DATA_FILE);
 	// checks if file was opened successfully
@@ -26,6 +41,7 @@ int main() {
 		cerr << "Failed to open " << STUDENT_DATA_FILE << endl;
 		return 2;
 	}
+#endif
 	
 	// get line from file
 	string line;
@@ -38,7 +54,10 @@ int main() {
 		// get first name
 		getline(currLine, tempStudent.lastName, ',');
 		// get last name
-		getline(currLine, tempStudent.firstName);
+		getline(currLine, tempStudent.firstName, ',');
+		#ifdef PreRelease // get email if in pre-release
+		getline(currLine, tempStudent.email, ',');
+		#endif // PreRelease
 
 		// insert student into vector
 		students.push_back(tempStudent);
